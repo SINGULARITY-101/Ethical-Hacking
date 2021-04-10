@@ -1,0 +1,86 @@
+SECTION 5.14
+Packet sniffing using airodump-ng
+
+Airodump-ng is the program that helps us capture packets that are not directed towards us by using the wireless adapter in monitor mode.
+
+Now to start airodump-ng
+*run "airodump-ng wlan0"
+*this will display all the wireless networks around you and useful information about them
+*to terminate the running use cntrl+c
+
+
+Now you will get a bunch if info about the wireless networks around you-
+*ESSID-The name of the wifi network
+
+*BSSID- The mac address of the target network
+
+*PwR- The signal strength. Higher the number the better. Or the less negative the better   (-38>-50)
+
+*Beacons-These are frames sent by the network to broadcast its existence even if it is hidden
+
+*#data-Number of useful pakcets
+
+*#/s-Number of packets collected by us in the past 10 seconds
+
+*CH-Channel the network works on
+
+*MB-maximum speed supported by the network
+
+*ENC-encryption used by the network
+
+*CIPHER-Cipher used in the network
+
+*AUTH- authentication used in the network
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 5.15
+
+
+
+*The band of a network defines what frquency it can use to braodcast the signal
+
+*Determines the channels that can be used
+
+*Clients need to support the band used by the router to communicate with it 
+
+*Data can be sniffed from a certain band if the wireless adapter used supports that band 
+
+
+
+
+
+
+
+
+Most common wifi bands are
+*a-uses 5ghz frequency only
+*b,g-both uses 2.4ghz frequrncy only
+*n- uses 5 and 2.4 ghz
+*ac-uses frequencies lower than 6 ghz
+
+In order to listen onto 5ghz frequencies (provided your wireless adapter supports it)we have to explicitly mention it using- 
+*airodump-ng --band a wlan0
+
+We can specify multiple bands using the band argument
+*airodump-ng --band abg wlan0
+
+This tells airodump to read 2ghz and 5ghz frequencies at the same time
+
+
+
+
+
+

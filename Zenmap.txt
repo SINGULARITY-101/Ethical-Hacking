@@ -1,0 +1,57 @@
+SECTION 10.33 and 10.34
+
+
+The second program we will use for mapping is NMAP/ZENMAP
+
+*NetDiscover is a quick way to discover the devices connected to the network
+*But NMAP takes scanning to a whole new level. It might be slower but it shows a lot more information
+*Its a huge tool so when you are done with the course do read a bit more about the NMAP tool
+
+
+We will be using ZENMAP which is a GUI tool of NMAP
+*run
+
+  zenmap
+
+it will open zenmap
+
+
+
+
+
+
+*Now put the IP range in the target column
+
+*In the command section, it will show the actual nmap command which will be executed when we hit the scan button. You can either add a custom command or use the command provided and paste it in the terminal to get the same results
+
+
+
+
+*There are differnt profiles of scans if you don't know much about nmap and its commands like 
+
+   -ping scan: pings every possible IP in the range and if it gets a response it  will                      display the response
+
+   -quick scan: which shows more information about the connected clients like which ports                    are open
+    
+   -quick scan plus: it will show the OS running on the device. We will be able to see the 		             device type and we will be able to disocver the programs and the 		                     program version running on the ports
+
+
+
+
+
+*ssh is a service that allows you to remotely execute system commands on the computer that has the ssh service installed 
+
+*Before you can execute system commands using ssh, a username and a password is required 
+
+*By defult, IOS devices do not have ssh service installed. When an Iphone is jailbroken, this service automatically gets installed and the default password for this service is alpine
+
+*Most users don't even know about this service and hence never change the default password and hence connecting to the device having the ssh service using the default password is worth a shot 
+
+
+
+
+
+
+
+
+

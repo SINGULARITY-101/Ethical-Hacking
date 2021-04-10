@@ -1,0 +1,222 @@
+SECTION 7.23   
+WPA/WPA2 cracking
+*They are very similar except the type of encryption they use to ensure message integrity
+*WPA- TKIP encryption  WPA2-CCMP encryption
+*Both can be cracked using the same methods
+
+
+*However, they are much more secure
+*Each packet is encrypted using a unique temporary key
+*Packets contain no useful information ( Unlike WEP in which the initialization vector needs to be appended to the encrypted packets)
+
+
+
+
+WPS(Wi-Fi protected setup) can be used to recover the key without having to crack the encryption
+
+*It allows devices to connect to the internet easily without having to enter the password
+*The authetication is done using an 8 digit pin
+   -8 digit pin is very small
+   -Can be found out in a short time
+   -Then the WPS pin can be used to compute the actual password
+*We are actally exploting a feature of WPA/WPA2
+
+
+*NOTE-THIS METHOD WILL NOT WORK IF PUSH BUTTON AUTHENTICATION IS ENABLED (PBC which means the router will reject all pins unless the button is pressed on the router.The only way to know if its enabled is by trying the WPS attack)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 7.24    ( NOT DONE )
+
+
+
+Exploiting WPS feature
+
+*Usually we use airodump-ng to see all the networks around us but right now we want to check which networks have WPS enabled 
+
+*Now first we will check which networks support WPS. For that use command-
+
+  wash -- interface wlan0
+
+This will list all networks around you which support WPS
+
+
+
+
+*Information Provided
+
+-BSSID: Mac Address of the Network
+-ESSID: Name of the network
+-Vendor: Hardware used 
+-Lck: Tells us whether WPS is locked or not because sometimes WPS locks after a number of          failed attempts. If it says no, you can go ahead and try to guess the pin   
+-WPS: Tells us the version of WPS
+-dBm: Signal Strength
+-Ch: Channel
+
+
+
+
+
+
+
+
+*Then we will type the fake authentication command in the second window (but dont't execute it) because we want the network to accept our pins and that is why association is necessary
+
+
+
+*We will run the REAVER program in the third windown first which will brute force the pin until it gets the right pin and once it has the right pin it will try to get the actual key
+
+ We will first run the REAVER program and only then we will associate with the target
+
+
+
+reaver --bssid <target netowrk's mac address> --channel 1 -- interface wlan0   -vvv --no-associate
+
+
+
+*COMMAND INFO
+
+
+1. vvv- will give us more information which will help us to know what is exactly going wrong         if the command doesn't work
+
+2. no-associate- it tells the reaver to not associate with the network because we are                         manually doing so in the first terminal window
+
+                 reaver actually associates automatically but it fails often so it is better                  to do it manually 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 7.25
+
+
+
+
+IF WPS IS DISABLED OR IT IS COFIGURED TO USE PBC, THE ABOVE METHOD WON"T WORK.
+
+In that case you will have to crack the actual encryption
+
+*WPA and WPA2 fixed all weaknesses of WEP
+*The keys are unique,temporary, much longer than in WEP
+*So the packets don't contain any useful information that can be used by us
+*The only packets that contain useful information are the HANDSHAKE PACKETS
+   -These are 4 packets transfered between the client and the router when the client         connects to the network
+
+
+STEPS-
+*First run airodump-ng against the target network and write the data onto a file
+*Now you have two options-
+  -Since handshakes are sent only when a client connects to the AP, you can either sit and      wait for a new client to connect voluntarily so that a handshake is sent which you can       capture
+  -Or you can launch a short deauthentication attack on one of the clients
+ 
+*After doing any of the above steps, you will capture the handshake and it will be stored in the file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 7.26
+
+*The handshake does not contain any data that helps in the recovery of the key
+*The information in it can only be used to check whether a password is valid or not
+
+*So what we will do is create a wordlist, which is basically a large text file that contains a large number of passwords then go through these passwords one-by- one and use them with the handshake to check whether the password is valid or not 
+
+CREATING YOUR OWN WORDLIST
+*We use a tool called crunch
+
+SYNTAX
+
+ crunch [min][max][characters]-o[filename]-t[pattern]
+
+*min-minimum number of characters in the passwords generated
+*max-maximum number of characters in the passwords generated
+*characters-The charaters you want to generate passwords with
+*pattern-The pattern you want
+*Do NOT forget the extension in the filename
+
+EXAMPLE:-
+crunch 6 8 123abc& -o wordlist.txt -t a@@@b
+
+*you can use "man crunch" to get more information about crunch in terminator
+*One of the interesting options is the "-p" option which tells crunch to generate passwords that don't have repeating characters
+
+*you can view the file generated in terminal using 
+   -  cat wordlist.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 7.27
+
+Now we have the two things (handshake and wordlist) to crack the password
+
+*For this aircrack-ng will unpack the handshake and extract the useful information 
+*The MIC (message integrity code) is whats used by the router to determine whether the password is correct or not
+*Now the MIC will be put aside
+
+
+*Then it will use all the other information obtained from unpacking the handshake and the first passowrd from the wordlist to generate a new MIC which it will compare with the handshake MIC
+*If both are same, then the passoword is the word taken from the wordlist
+*If not, same process will be carried out for all the other words in the wordlist
+
+PRACTICALLY
+
+*run
+  aircrack-ng wpa1.cap -w wordlist.txt
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+SECTION 11.37
+
+
+BETTERCAP BASICS
+
+
+*Framework to run network attacks
+
+*Can be used to 
+ >ARP spoof rargets
+ >Sniff data
+ >Bypass HTTPS
+ >Redirect domain requests (DNS SPOOFING)
+ >Inject code in loaded pages 
+
+
+*SYNTAX
+
+ bettercap -iface [interface_connected_to_the_target_network]
+
+
+
+
+
+
+
+
+*Type help in bettercap to get a full list of the commands that we can use 
+
+*The thing you need to pay attention to is the modules 
+
+  >These are all the things we can get bettercap to do
+  >Initially only one thing is running which is the events.stream 
+
+*You can type "help <name_of_the_module>" to get guide on how to use that specific module 
+
+
+
+
+
+
+
+
+*net.probe and net.recon modules 
+
+ >net.probe: Keeps probing for new hosts on the network by sending dummy UDP packets to                   every possible IP on the subnet 
+
+                net.probe on
+
+             When you run it on your virtual NAT network, you will be able to find the              target windows virtual machine 
+
+             This is another way of discovering connected clients quickly using bettercap 
+
+
+
+ >net.recon: Gets turned on automatically when we use net.probe
+
+             You can confirm this by runnning help after turning on net.probe and you will 	             notice that in the modules section, net.probe and net.recon both are running
+
+             The reason for this is because the net.probe sends probe requests to all                     possible IPs and then if we get a response, net.recon will be the one detecting              this response by monitoring the ARP cache and then adding all of these IPs in a              nice list
+
+
+
+ >net.show: Since net.recon is already running, we can do net.show to see all of the                     connected clients in a nice list 
+
+
+
+
+
+*Now since both net.probe and net.recon are on we will discover the connected clients and keep automatically discovering new clients that connect to the network  
+
+
+*To exit bettercap type "exit"
+
+
+
+
+
+
+
+
+
+
+
+

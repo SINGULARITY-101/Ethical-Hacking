@@ -1,0 +1,173 @@
+OST CONNECTION ATTACKS: MITM ATTACKS
+
+
+
+
+
+
+
+SECTION 11.35 
+
+
+*Man-in-the-middle attacks
+
+ -These are attacks that we can launch only if we are able to intercept the communication     between two devices
+
+ -In a normal connection, the device directly communicates with the entity they want to       communicate with 
+  
+ -In MITM, the hacker places himself in the middle of the connection allowing the hacker to 
+  intercept and see anything that is being transferred between the two devices
+
+ -There are a number of ways to achieve this but one of them is ARP SPOOFING
+
+
+
+
+
+
+
+*ARP SPOOFING ATTACK
+
+ -ARP spoofing allows us to redirect the flow of packets so that any requests and responses    between the client and the Access point, travel through the hacker's computer
+
+ -This allows the hacker to read this information, modify it or even drop it 
+
+
+ -UNDERSTANDING ARP
+
+   >ARP stands for address resolution protocol 
+
+   >It is a simple protocol used to map the IP address of a machine to its MAC address 
+
+   >Allows us to link IP addresses to MAC addresses 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -The communication inside the network is carried out using the MAC addresses and not using    the IP addresses 
+
+ -Assuming the hacker knows the IP address of the target machine (from running netdiscover   or zenmap on the target network after connecting to it) , the hacker now only needs the   target machine's MAC address to communicate with it
+
+
+
+
+
+ -So what the hacker does is use the ARP protocol:-
+   
+   >The hacker sends an ARP request to all the clients in the network asking:-
+
+        "WHO HAS THIS <IP_ADDRESS>"
+
+   >This request is ignored by all the other clients except the one with the specified IP
+
+   >This client replies with an ARP response to the hacker:-
+
+        "I HAVE THIS <IP_ADDRESS> AND MY MAC IS <MAC_ADDRESS>"
+
+   >Now the hacker has the Mac address of the target machine as well and will now be able    to communicate with the target machine 
+
+   >All this communication is facilitated using the ARP protocol   
+
+
+
+
+  -Each computer has an ARP table, which links IP addresses on the same network to their    mac addresses. To view this table use command:-
+
+
+            arp -a
+
+
+
+
+
+
+
+
+
+
+         
+
+
+  -Things that happen during actual ARP spoofing 
+
+
+   >We will exploit the ARP protocol and send 2 responses, one to the router and another     to the victim
+
+
+
+
+
+   >The router ARP request would say:-
+
+       "I HAVE THIS <VICTIM'S IP_ADDRESS> AND MY MAC IS <HACKER's MAC ADDRESS>
+
+
+   >The router will accept this request and update its ARP table to asssociate the     Victim's IP address to the Hacker's machine
+
+   
+
+
+
+
+   >The victim's ARP request would say:-
+
+       "I HAVE THIS <ROUTER's IP ADDRESS> AND MY MAC IS <HACKER's MAC ADDRESS>
+
+   >The victim will accept this request and update its ARP table to associate the router's       IP address to the Hacker's machine
+
+
+
+   
+
+
+
+   >And this way the hacker has entered in the middle of the connection and all the     requests and respones between the victim and the router will go through the hacker's      machine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Why ARP spoofing works?
+
+-Clients accept responses even if they did not send a request 
+-Clients trust the response without any form of verification 
+
+
+
+
+
+
+
+                                   
+
+
+
+

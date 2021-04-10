@@ -1,0 +1,18 @@
+SECTION 4.13
+The default mode of all wireless devices is managed which means it will receive only those packets that has the destination mac address as the mac address of the device
+
+But we want to capture all packets within our range
+
+For this we need to set the mode to monitor mode
+
+How to change the mode??
+*type iwconfig toget all the wireless interfaces
+*disable the interface using ifconfig
+*run "airmon-ng check kill"
+*this will kill any process that could interfere with us using our device in monitor mode.
+*you will lose your internet connection after running this command
+*then use "iwconfig wlan0 mode monitor"
+*then re-enable wlan0
+
+
+

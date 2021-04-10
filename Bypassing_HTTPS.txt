@@ -1,0 +1,147 @@
+SECTION 11.41
+
+HTTPS BASICS
+
+
+*HTTP problem
+ >Data in HTTP is sent in plain text
+ >A MITM can read and edit requests and responses 
+ >Hence, not secure
+
+
+*HTTPS solutions
+ >HTTPS is an adaptation of HTTP
+ >It is a secure HTTP protocol
+ >Encrypt HTTP using TLS (Transport Layer Security) or SSL (Secure Sockets Layer)
+
+
+
+
+
+
+
+
+
+BYPASSING HTTPS BASICS
+
+*PROBLEM
+ >Most websites use HTTPS
+ >Sniffed data will be encrypted
+
+
+*SOLUTION
+ >Downgrade HTTPS connections to HTTP
+
+ >Since we are the MITM we can check if the target is requesting for a HTTPS website and       instead of giving him the HTTPS version of that website we will give him the HTTP version
+
+ >This way data will be sent in plain text 
+
+
+
+
+
+
+
+*To do this we will have to manually configure and use a tool called SSL strip but luckily bettercap has a caplet that will do all of this for us but this caplet can be buggy so better download the caplet from the link provided and replace the original version with the downloaded version 
+
+
+
+
+
+
+
+
+*Also, we will be making a change to the caplet file we created in the previous lecture 
+
+ >Add this command before "net.sniff on"
+
+   set net.sniff.local true 
+
+ >What this option will do, it will tell bettercap to sniff all data even if it thinks this   data is local data
+
+ >The reason we are setting this to true is because once we use the HTTPS bypass caplet the   data will seem as if it is being sent from our computer. So bettercap will think these     passwords belong to our computer and it will not display them on the screen 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 11.42
+
+
+
+PROCEDURE FOR BYPASSING HTTPS 
+
+
+
+*First we will use the caplet file we have created (which will run the ARP spoofing and the sniffer for us ) and supply it to bettercap so that it runs as soon as we run the program
+
+ 
+   bettercap -iface eth0 -caplet spoof.cap 
+
+
+*Use help to confirm that all the required modules are running 
+
+
+
+
+
+
+
+*The next thing we want to do is run the HSTS bypass caplet (one that we just downloaded)
+
+ >HSTS bypass caplet is one of many caplets that Bettercap comes with  
+
+ >if you want to see all the caplets, you can run "caplets.show"
+
+ >The caplet we want to run is HSTS hijack caplet and for that you just literally have to   type the name of the caplet and hit enter 
+
+ >If you get no errors, means everything got executed as expected 
+
+
+
+
+
+
+
+*Before trying all these things a good idea would be to remove your browsing data because the websites that we will try to access might be cached and they might just be loaded from your cache 
+
+*Now go to the windows machine and browse some HTTPS pages 
+
+
+
+
+
+
+
+
+
+
+

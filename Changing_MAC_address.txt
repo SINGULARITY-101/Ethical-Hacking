@@ -1,0 +1,53 @@
+SECTION 4.12
+What is mac address?
+>Stands for media access control
+  -Permanent
+  -Physical
+  -Unique
+Address assigned to a netowork interface (anything that helps us connect to a network) by the manafacturer
+
+Each packet has a source mac and a destination mac so that it goes to the correct device
+
+Why change it?
+> To increase annonymity
+> To bypasss filters
+> To impersonate devices
+
+COMMANDS
+*ifconfig- lists all the interfaces
+*iwconfig- lists only wireless interfaces
+*ifconfig <device_name> down- disables the device
+*ifconfig <device_name> up-Enables the device
+
+When you type ifconfig you will get a list of network interfaces-
+*eth0- Created by kali when we configured it to connect to a NAT network.
+*ether-The mac address
+*inet- IP address
+lo and wlan0 don't have an IP address because they are not connected to the internet
+*lo-default interface created by the linux
+*wlan0-our wifi card
+
+
+
+Before changing the mac adderess you have to disable the wifi card using the ifconfig command:
+ -ifconfig wlan0 down
+
+
+
+then to change the mac address you do:
+ -ifconfig wlan0 hw ether 00:11:22:33:44:55
+
+hw ether (hardware address)
+
+
+
+then re-enable the device using:
+ -ifconfig wlan0 up
+
+
+
+
+Now if you type ifconfig and check the ether of wlan0, you will see its changed
+
+
+

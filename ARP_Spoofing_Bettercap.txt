@@ -1,0 +1,238 @@
+SECTION 11.38
+
+ARP SPOOFING USING BETTERCAP
+
+*There is a module in bettercap called the arp.spoof that allows us to become the man in the middle 
+
+*Use "help arp.spoof" to get more information about this module
+
+ -When we use help for a module, we also get a list of the parameters that we can modify       with a description of what the parameters do and their default values 
+
+
+
+
+
+
+
+
+**NOTE: MAKE SURE NET.PROBE AND NET.RECON MODULES ARE RUNNING BEFORE YOU START THESE STEPS**
+
+
+
+ -ARP SPOOFING USING BETTERCAP
+           
+  	>for arp.spoof we have a parameter arp.spoof.fullduplex and basically if it is set 	         to true then both the target and the router will get spoofed. And if you leave it            to default (i.e. False) then only the target machine will be spoofed 
+
+ 	>This is similar to running the command twice using the arpspoof in terminator 
+
+ 	>This parameter is useful if the router has protections against ARP spoofing so we 	         can set it to false and spoof only the target
+
+	>But it also limits what we can do because the router then directly communicates 	         with the target machine and we are not able to inject anything in the responses 	         going from the router to the target machine
+
+
+
+        
+
+        >Now to change the parameter:-
+
+            set arp.spoof.fullduplex true
+
+        >You can use this method to change any parameter of any module in bettercap 
+
+            set <parameter_name> true
+
+
+
+
+
+       >Now we will change another parameter of arp.spoof which is arp.spoof.targets 
+
+       >Description in Kali: Comma seprated list of IP addresses, MAC addresses or aliases                                to spoof, also supports nmap style IP ranges 
+
+       >You can get the target IP using netdiscover/zenmap/net.probe and net.show
+
+       >We change the parameter like:
+
+           set arp.spoof.targets 10.0.2.4       (Target machine's IP)
+
+       
+
+      
+
+      >Now turn the arp.spoof module on and you will start spoofing both the target and             the router and you will be the MITM
+
+            arp.spoof on
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 11.39
+
+
+*We are now in the middle of the connection between the computer and the access point 
+
+*The data is already flowing through our computer. So we just need a program to capture this data and analyse it
+
+*We can use wireshark but for now we will be using a module that comes with bettercap 
+
+*We can do this to any device that is connected to the same network as us whether its WiFi or a wired network 
+
+
+
+
+
+*net.sniff module 
+
+ >use "help net.sniff" to see all the parameters you can modify but for now we will be       running this module without changing any parameters 
+
+ >Once the module is turned on everything thats gonna flow through this computer will be     captured and analyzed by the net.sniff module 
+
+
+
+
+
+
+NOTE: What we are doing right now will not work against https. We will bypass it later. For        now we will use a website called vulnweb (which does not use https) on our windows VM        to generate traffic. 
+
+
+
+
+
+ >Now once you generate traffic you will notice on the kali machine that every request that    was sent on the windows VM was actually captured by us
+
+ >If you use a sample login website from vulnweb and login, you will also see the login        credentials in the kali machine 
+
+
+
+**NOTE: This technique will only work with HTTP. HTTPS will be discussed in the coming         lectures **
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 11.40 
+
+
+CREATING CUSTOM SPOOFING SCRIPT 
+
+
+*In order to use bettercap to run arp spoofing attack and analyze the data collected we had to run a variety of things first
+
+  >net.probe on
+  >net.show
+  >set arp.spoof.fullduplex true
+  >set arp.spoof.targets <target_IP>
+  >arp.spoof on
+  >net.sniff on
+
+
+*Its inconvenient to run these steps over and over again every time we want to run this  attack 
+
+
+
+
+
+
+
+
+
+*So what we will do is use a caplet file to do all this automatically 
+
+
+
+ >A caplet file is basically a text file that contains all the commands that you want to       run
+ 
+ >What you need to do is put all the commands that you want to be executed automatically in   a text file
+
+    net.probe on
+    set arp.spoof.fullduplex true
+    set arp.spoof.targets 10.0.2.4      //Make sure to change the target IP based on your        arp.spoof on			  target
+    net.sniff on
+
+ >Save this text file in your root directory as "spoof.cap"
+
+
+
+
+
+ >Now what we want to do is feed this spoof file to bettercap, before we start bettercap
+
+ >If you are confused with what to do you can always run "bettercap --help"
+
+
+
+
+
+
+
+ >What we will use is the -caplet argument
+
+
+   bettercap -iface eth0 -caplet spoof.cap 
+
+
+
+ >Now when you run this command all the modules will be automatically started which you can    check by running help on the kali machine in bettercap and "arp -a" on the windows machine   and checking the MAC of the router which should be changed from the original before the      attack
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

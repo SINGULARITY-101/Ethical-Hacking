@@ -1,0 +1,52 @@
+SECTION 5.16
+
+
+
+Targeted packet sniffing using airodump.ng
+
+airodump-ng --bssid <target's mac address> --channel <channelnumber> --write test wlan0
+
+
+
+
+*Running this will give you more information only about the target network
+
+
+*There will be a completely new section which will contain information about the clients connected to the target network, including their MAC addreses under the station section which will come in handy
+
+
+-Probe: will show the name of the network the client is looking for
+-STATION: MAC addresses of the connected devices
+-PwR: The signal strength of each of these devices 
+-Rate: Speed
+-Lost: Amount of Data lost
+-Frames: Amount of packets we have captured
+
+
+
+
+
+
+
+After terminating the statement the data will be stored in the test file
+
+
+
+*There will be different files with different extensions
+*The main file we will be using is the test01.cap file.
+*It contains everything that was sent to or from the target network
+
+
+*Open this file using wireshark
+ wireshark
+ open file
+
+
+
+*you will see everything is gibberish due to encryption
+
+
+
+
+
+

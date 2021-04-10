@@ -1,0 +1,174 @@
+SECTION 6.19
+WEP theory
+*Stands for wired equivalent privacy
+*Its an old encryption can be easily cracked
+*Uses an algorithm called RC4
+
+
+Encryption Process
+
+*Client encrypts data using a key before sending which converts the information into gibberish
+*Encrypted packet sent into the air
+*The router decrypts this encrypted packet using a key to get the desired information
+
+Same happens when router sends something to the client
+
+
+
+How WEP implements it?
+
+*Each packet is encrypted using a unique key stream
+*WEP tries to generate a unique key for each packet
+*To do that it generates a random 24 bit initialization vector(IV)
+*The IV is then added to the password of the network to generate the key stream
+     keystream= IV+Network's password
+*This keystream is used to encypt the packet
+*WEP will also append the IV to the packet before sending it into the air so that router is able to decrypt the required packet (The router already has the network's password)
+
+ 
+
+Vulnerabilities
+*The IV is sent in plain text
+*Its only 24 bits long which means in a busy network the IV keys start getting repetitive 
+*Therefore, vulnerable to statistical attacks
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 6.20
+WEP cracking
+
+To crack WEP we need to
+1. Capture a large number of packets/IVs (using airodump-ng)
+2. Analyse the captured IVs and crack the key (using aircrack-ng)
+
+STEPS
+*Run airodump-ng on the WEP netowrk. Make sure to write the contents on to a file
+*Under the data column you will be able to see the number of useful packets that contain a different IV that we can use to crack the key. If its a busy network it will increase very fast
+
+
+*Now we run aircrack-ng on the cap file
+   aircrack-ng test01.cap
+*This will show us the key and the ASCII password
+*We can connect using the key or the ASCII passoword
+
+
+*Sometimes it might not show you the ASCII password so you will have to connect using the key
+   -Copy the key and paste it anywhere
+   -Remove the colons between the numbers
+   -Copy the corrected key
+   -Go to your main machine and connect by entering the key
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 6.21
+
+Problem with the above method
+*If network is not busy it will take a lot of time to capture enough IVs
+ 
+Solution
+*Force the AP to generate IVs
+
+NOW to do that we will have to first ASSOCIATE ourselves with the network
+
+*ASSOCIATING and CONNECTING are two different things
+*By ASSOCIATING we mean just telling the network that "I want to communicate with you please don't ignore my requests" (By default access points (APs) communicate only with connected clients and ignore all other requests)
+*By CONNECTING we mean entering passwords and then connecting
+
+
+For ASSOCIATING
+*Run airodump-ng against the target network (write onto a file)
+*use 
+
+
+
+aireplay-ng --fakeauth 0 -a <target network's mac address> -h <Wireless adapter's mac address> wlan0
+
+
+
+
+*fakeauth- fake authentication attack
+*0- time interval between authetication attempts
+*Wireless adapter's mac address
+   -To get this type ifconfig
+   -It is the first 12 digits of the unspec field
+   -remove the minuses and replace it with colons
+
+
+
+
+
+
+*Now you will initially see the AUTH column in airodump-ng empty and you wont see any clients
+*After running, you will see OPEN under AUTH and a new client under the clients section
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION 6.22
+
+Now that we have associated with the network we can start injecting packets onto the network to force the access points to generate new IVs which can be used to crack WEP networks
+
+
+The most reliable method is the ARP request replay attack
+
+*For this method we first wait for an ARP packet (For now consider it as a special packet)
+*We capture it and then retransmit it
+*Because of this the router is forced to produce new packets with new IV
+
+
+
+Now to do this method use-
+
+  
+
+aireplay-ng --arpreplay -b <Target Network's mac address> -h <wireless adapter's mac address> wlan0
+
+
+
+
+
+
+
+*Once an ARP packet is received it will continuously be retransmitted forcing the AP to generate new packets with new IV's. You will notice the #data column going up very quickly
+
+*Now run aircrack-ng on the cap file and you will get the password
+
+
+
+
+
+
+
+

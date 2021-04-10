@@ -1,0 +1,57 @@
+SECTION 11.44
+
+
+*DNS BASICS
+
+ -DNS is a server that converts domain names such as google.com to the IP of the server that   is hosting this website
+
+     >So when you type google.com in your browser, the request goes to a DNS server, the           server responds with the IP of the server hosting google.com and then the browser will       load this website from the IP provided
+
+
+
+
+ -Since we are the MITM, the request for google.com will pass through us first before it     goes to the DNS server
+  
+ -So what we can do, instead of giving the IP of the server hosting google.com we can     actually give any IP we want 
+
+ -So we can redirect them to a fake website with a bakcdoor or evil code, hijack software     updates etc
+
+
+
+
+
+
+
+
+*DNS SPOOFING BASICS
+
+-We will be redirecting our target to our own website that we are hosting on our kali   machine server
+
+-Starting the web server:-
+
+     service apache2 start 
+
+
+-apache 2 is the name of the web server 
+
+
+-To access this server / the website we are hosting on this server we have to go to kali's  IP which you can get by using ifconfig 
+
+
+
+
+
+
+
+
+
+-Now a default page will be loaded once you enter this IP in the browser's URL bar 
+
+-The pages for this default website are stored in:-
+   
+      /var/www/html
+
+-Once you go to this path, you will see the files for the default website. So if you want to install a fake website or any type of website, all you have to do is just put its files in this diretory 
+
+-Index.html is the file that gets loaded by default. You can open it with any text editor and modify it to load something else 
+

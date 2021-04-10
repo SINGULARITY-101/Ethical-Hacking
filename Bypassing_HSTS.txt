@@ -1,0 +1,162 @@
+SECTION 11.43
+
+
+HSTS BASICS
+
+*Called HTTP strict transport security
+
+*In the previous lectures, whenever a browser requests a website, we load that website even if it uses HTTPS but we always give the user the HTTP version 
+
+
+
+
+*In HSTS, the browser knows that a particular website should always be loaded over the HTTPS 
+
+*So even before sending the request to us, it will always send it in HTTPS and it will always only accept it if it comes back as HTTPS 
+
+
+
+
+
+*Most Modern browsers come with a list of websites that they should only load over HTTPS
+
+*Used by facebook, Twitter and few other famous websites
+
+
+
+
+*So we can't do much once we become the MITM because the browser is doing this check locally (it's checking agaisnt a list which is stored on the computer itself)
+
+
+
+
+
+
+
+
+
+
+
+
+BYPASSING HSTS BASICS
+
+*Problem
+ >Modern browsers are hard-coded to only load a list of HSTS websites over https
+
+
+*Solution
+ >Trick the browser into loading a different website
+ >Replace all links for HSTS websites with similar lnks 
+
+ EXAMPLE
+
+ facebook.com ---> facebook.corn
+ twitter.com---->twiter.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BYPASSING HSTS PRACTICALLY
+
+
+*We will be using the HSTS caplet which we used in the previous lecture 
+
+*Go to the folder you have put the Downloaded caplet in
+
+ /usr/share/bettercap/caplets
+
+
+*Open the hstshijack.cap file with leafpad 
+
+
+
+
+
+
+
+
+
+CONTENT EXPLANATION
+
+
+*You will notice that it is already pre-configured. The main things you need to undestand and maybe change are the targets and the replacements 
+
+   >Targets: These are the domains that use HSTS that you want to replace 
+             
+	     EXAMPLE
+             twitter.com, *.twitter.com 
+
+	     Basically when you use a * (which is essentially a wild card) any 
+             sub-domains .twitter.com will be a target as well         
+            
+
+
+   >Reaplacement: In this field, we tell the program what to replace the target with 
+
+
+
+
+
+
+*You can also play around with the obfuscate and encode options
+ 
+  >Both are set to false so that the code is not obfuscated and encoded because some
+   browsers block encoded code 
+
+
+
+
+
+*In the payloads, you can set any other JavaScript code that you want to inject 
+
+*Finally, you want to make sure that the DNS spoof domains are exactly the same as the replacements 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RUNNING THE ATTACK
+
+*So running the attack is actually indentical to what we did in the previous lecture since configuring the file is the main task and its already pre-configured 
+
+
+
+
+
+*****NOTE: The only way for the below attack to work if the user gets to the target website 	   through a website that does not support HSTS. If they go on the URL bar and type 	   the target website out themselves, this attack will not work *****
+
+
+
+

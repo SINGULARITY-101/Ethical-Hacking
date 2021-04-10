@@ -1,0 +1,39 @@
+SECTION 10.32
+
+*NetDiscover is used to map a network and see what devices are connected to that network
+*The kali machine is connected through a NAT network
+*The windows virtual machine is also configured to use the same NAT network as the kali machine
+*Use-
+   
+   netdiscover -r <IP range>
+
+EXAMPLE
+ 
+   netdiscover -r 10.0.2.1/24
+
+*This IP range needs to be accesible by you (You can only access IPs on the same subnet)
+
+
+*NetDiscover will now look for all IPs starting from 10.0.2.1 to 10.0.2.254 that are connected to the netowork
+*This is the way we specify an IP range for the whole subnet
+*Pressing q quits the program 
+*Now we have a list of all the clients connected to the same network 
+
+
+*NOTE: The first 3 parts of the IPs (10.1.2. ) are the same because they are in the same subnet 
+
+
+
+We can do this to a wifi networks as well :-
+
+*For that first connect a wireless adapter to the kali machine
+*Disconnect the default NAT network of the kali machine otherwise netdiscover wont work
+*Connect the kali machine to the target network(after cracking it) using the wireless adpater
+*Run NetDiscover for the IP range of your wireless adapter (which you can find out by typing ifconfig)
+
+Press q to quit the scan
+
+
+
+
+

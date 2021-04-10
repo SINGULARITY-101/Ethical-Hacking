@@ -1,0 +1,63 @@
+SECTION 11.36
+
+*There are a number of tools to run the ARP spoofing attack but we will be using arpspoof
+
+
+
+*ARPSPOOF
+
+ >Simple and Reliable 
+ >Ported to most operating systems
+ >Usage is always the same 
+ >Allows us to redirect the flow of data and make it flow through your computer and then you   will have to use a packet sniffer like wireshark to analyze the data 
+
+ >Here, we are running this attack on a virtual NAT network that both our kali machine and    windows machine are using 
+
+ >But the attack can be executed exactly the same on a wireless network. All you have to do    is connect a wireless adapter to the Kali machine, connect the adapter to the target       network and use the atack 
+
+
+
+
+
+ >SYNTAX
+
+      arpspoof -i [interface_connected_to_the_target_network] -t [client_IP] [gateway_IP]             
+	This will spoof the victim telling it that the hacker's machine is the router   
+
+
+
+
+      arpspoof -i [interface_connected_to_the_target_network] -t [gateway_IP] [client_IP]
+
+        This will tell the router that the hacker's machine is the victim
+        
+
+
+
+
+
+ >Both the commands are to be run simulataneously
+
+ >If you go to the windows machine after running the above commands and run arp -a in cmd,     you will notice that MAC address for the router has changed 
+
+ >This MAC address is actually of the Kali machine. So the windows machine thinks that the     hacker's machine is the router 
+ 
+
+
+
+ >But the hacker's machine is not really a router so it will stop any requests from going to   the router. So we need to enable port forwarding, so that our computer will allow the     packets to flow through it just like a router 
+
+
+     echo 1 > /proc/sys/net/ipv4/ip_forward
+
+
+
+
+
+
+
+
+
+
+
+
